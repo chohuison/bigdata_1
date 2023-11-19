@@ -1,0 +1,9 @@
+jpabook\start\domain\QPrice.class
+jpabook\start\domain\QHotel.class
+jpabook\start\domain\QAddress.class
+jpabook\start\domain\QReview.class
+jpabook\start\domain\QMember.class
+jpabook\start\domain\QConvenience.class
+jpabook\start\domain\QDiscount.class
+jpabook\start\domain\QVariablePrice.class
+jpabook\start\domain\QDay.class
