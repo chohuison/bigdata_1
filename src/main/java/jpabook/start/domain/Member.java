@@ -25,5 +25,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    public Member(String name, RoleType roleType)
+    {
+        this.name = name;
+        this.roleType = roleType;
+    }
 
 }
