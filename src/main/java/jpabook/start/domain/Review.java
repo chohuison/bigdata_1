@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="REVIEW_ID")
     private Long id;
 

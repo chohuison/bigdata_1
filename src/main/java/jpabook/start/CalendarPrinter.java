@@ -23,7 +23,7 @@ public class CalendarPrinter {
 
         // 달력 출력
         System.out.println("[" + year + "년 " + month + "월" + "]");
-        System.out.println("일  월  화  수  목  금  토");
+        System.out.println("일   월   화   수   목   금   토");
 
         // 첫 번째 주의 시작 위치 조정
         for (int i = 1; i < firstDayOfWeek; i++) {
