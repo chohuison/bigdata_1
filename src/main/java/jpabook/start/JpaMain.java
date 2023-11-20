@@ -1,6 +1,7 @@
 package jpabook.start;
 
 import jpabook.start.domain.*;
+import jpabook.start.service.HotelDetailService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +19,8 @@ public class JpaMain {
 
         try {
             tx.begin();
-
+//            HotelDetailService hotelDetailService = new HotelDetailService(em);
+//            hotelDetailService.houseDetail(1L,11);
 
             tx.commit();
         } catch (Exception e) {

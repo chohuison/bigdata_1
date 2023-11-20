@@ -22,6 +22,7 @@ public class Discount extends Day{
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
+    @Enumerated(value = EnumType.STRING)
     private DiscountType discountType;
 
     private int value;

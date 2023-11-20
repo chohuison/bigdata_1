@@ -7,15 +7,10 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "DTYPE")
+@Embeddable
 public class Address {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "ADDRESS_ID")
-    private Long id;
+
 
     private String city;
     private String street;

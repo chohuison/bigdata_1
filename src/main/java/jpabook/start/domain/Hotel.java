@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("HOTEL")
-public class Hotel extends Address{
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Hotel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HOTEL_ID")
     private Long id;
 
@@ -27,13 +27,14 @@ public class Hotel extends Address{
     @Embedded
     private Price price;
 
+    @Embedded
+    private Address address;
+
     private int bedCount;
 
     private int toiletCount;
 
-    private RoomType roomType;
 
-    private int roomCount;
 
     @OneToMany(mappedBy="hotel")
     private List<Discount> discount;

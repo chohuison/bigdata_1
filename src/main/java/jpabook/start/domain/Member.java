@@ -15,14 +15,14 @@ import javax.persistence.*;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="MEMBER_ID")
     private Long id;
 
     @Column(name="NAME")
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private RoleType roleType;
 
 
