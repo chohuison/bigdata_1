@@ -22,8 +22,10 @@ public class JpaMain {
 //            HotelDetailService hotelDetailService = new HotelDetailService(em);
 //            hotelDetailService.houseDetail(1L,11);
 
+            Part569.pushStartData();
             tx.commit();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             tx.rollback();
         } finally {
             em.close();

@@ -13,14 +13,13 @@
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/airbnb" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test" />
 
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.use_sql_comments" value="true" />
-            <property name="hibernate.generate_statistics" value="true" />
+            <!--            <property name="hibernate.hbm2ddl.auto" value="update" />-->
             <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="hibernate.physical_naming_strategy" value="jpabook.start.UppercaseSnakePhysicalNamingStrategy"/>
             <property name="hibernate.id.new_generator_mapping" value="true" />
