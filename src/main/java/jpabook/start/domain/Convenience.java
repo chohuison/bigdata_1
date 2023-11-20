@@ -23,4 +23,8 @@ public class Convenience {
 
     private ConvenienceType convenienceType;
 
+    public Convenience(String name, ConvenienceType convenienceType) {
+        this.name = name;
+        this.convenienceType = convenienceType;
+    }
 }
