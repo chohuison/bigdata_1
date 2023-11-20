@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 public class Discount extends Day{
 
-
     @Id
     @GeneratedValue
     @Column(name="DISCOUNT_ID")
@@ -27,3 +26,5 @@ public class Discount extends Day{
     private int value;
 
 }
+
+
