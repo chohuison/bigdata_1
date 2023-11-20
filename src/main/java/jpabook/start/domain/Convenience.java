@@ -21,6 +21,12 @@ public class Convenience {
 
     private String name;
 
+    @Enumerated(value = EnumType.STRING)
     private ConvenienceType convenienceType;
+
+    public Convenience(String name, ConvenienceType convenienceType) {
+        this.name = name;
+        this.convenienceType = convenienceType;
+    }
 
 }
