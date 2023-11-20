@@ -1,9 +1,7 @@
 package jpabook.start.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -11,7 +9,6 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Discount extends Day{
-
 
     @Id
     @GeneratedValue
@@ -22,8 +19,11 @@ public class Discount extends Day{
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
+    @Enumerated(value = EnumType.STRING)
     private DiscountType discountType;
 
     private int value;
 
 }
+
+

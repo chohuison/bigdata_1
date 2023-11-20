@@ -31,6 +31,7 @@ public class Hotel extends Address{
 
     private int toiletCount;
 
+    @Enumerated(value = EnumType.STRING)
     private RoomType roomType;
 
     private int roomCount;
