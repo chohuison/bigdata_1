@@ -46,7 +46,7 @@ public  class HotelDetailService {
             TypedQuery<IndividualHotel> query1 = em.createQuery("SELECT ih FROM IndividualHotel ih WHERE ih.id = :hotelId", IndividualHotel.class);
             query1.setParameter("hotelId", 1L);
             IndividualHotel individualHotel = query1.getSingleResult();
-            num= individualHotel.getMaxCapacity();
+            num= individualHotel.getRoomCount();
             type="개인 공간";
 
         } catch (NoResultException e) {
@@ -56,7 +56,7 @@ public  class HotelDetailService {
             TypedQuery<EntireHotel> query2 = em.createQuery("SELECT eh FROM EntireHotel eh WHERE eh.id = :hotelId", EntireHotel.class);
             query2.setParameter("hotelId", 1L);
             EntireHotel entireHotel = query2.getSingleResult();
-            num= entireHotel.getRoomCount();
+            num= entireHotel.getMaxCapacity();
             type="전체 공간";
         } catch (NoResultException e) {
 
