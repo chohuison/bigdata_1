@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class ReservationStatus extends Day {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RESERVATION_ID")
     private Long id;
 

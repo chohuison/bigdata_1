@@ -7,13 +7,10 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Embeddable
-public class Address {
+@Entity
+@DiscriminatorValue("INDIVIDUALHOTEL")
+public class IndividualHotel extends Hotel{
 
 
-
-    private String city;
-    private String street;
-    private String zipCode;
-
+    private int maxCapacity;
 }
