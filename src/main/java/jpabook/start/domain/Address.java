@@ -9,11 +9,7 @@ import javax.persistence.*;
 @Setter
 @Embeddable
 public class Address {
-
-
-
     private String city;
     private String street;
     private String zipCode;
-
 }

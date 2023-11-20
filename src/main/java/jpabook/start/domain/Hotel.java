@@ -12,7 +12,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     @Column(name = "HOTEL_ID")
     private Long id;
 
@@ -34,16 +34,14 @@ public class Hotel {
 
     private int toiletCount;
 
-
-
     @OneToMany(mappedBy="hotel")
     private List<Discount> discount;
-
 
     @ManyToMany
     private List<Convenience> convenience;
 
     @OneToMany(mappedBy="hotel")
     List<Review>reviews;
+
 
 }
