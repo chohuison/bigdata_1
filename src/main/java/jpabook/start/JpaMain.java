@@ -21,11 +21,6 @@ public class JpaMain {
 //            HotelDetailService hotelDetailService = new HotelDetailService(em);
 //            hotelDetailService.houseDetail(1L,11);
 
-            //5번
-            LocalDate checkinDate = LocalDate.now();
-            LocalDate checkoutDate = LocalDate.now().plusDays(3);
-            Part569.bookHouse(29L,34L,checkinDate,checkoutDate,"INDIVIDUAL",10);
-            Part569.bookHouse(29L,34L,checkinDate,checkoutDate,"ENTIRE",5);
 
 
             tx.commit();
