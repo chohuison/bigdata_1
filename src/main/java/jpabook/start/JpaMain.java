@@ -19,11 +19,17 @@ public class JpaMain {
 
         try {
             tx.begin();
-//            HotelDetailService hotelDetailService = new HotelDetailService(em);
-//            hotelDetailService.houseDetail(1L,11);
+//            Member member = new Member();
+//            member.setName("손초희");
+//            member.setRoleType(RoleType.HOST);
+//            em.persist(member);
+            HotelDetailService hotelDetailService = new HotelDetailService(em);
+            hotelDetailService.houseDetail(2L,11);
 
             tx.commit();
         } catch (Exception e) {
+            System.err.println(e.getMessage()); // 에러 메시지 출력
+            e.printStackTrace(); // 에러 스택 트레이스 출력
             tx.rollback();
         } finally {
             em.close();
