@@ -17,4 +17,5 @@ public class Day {
 
     private LocalDate startDay;
     private LocalDate finalDay;
+
 }

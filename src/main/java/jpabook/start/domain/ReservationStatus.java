@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class ReservationStatus extends Day {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     @Column(name = "RESERVATION_ID")
     private Long id;
 
@@ -18,9 +18,11 @@ public class ReservationStatus extends Day {
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
-    private int cnt;
+    private int cnt;//예약한 방(개인공간)or예약한 인원(전체공간)
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    private int totalPrice;
 }

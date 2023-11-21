@@ -10,6 +10,7 @@
         <module name="jpa_study" />
         <module name="jpa_study(son)" />
         <module name="jpa_study(kim)" />
+        <module name="bigdata_1" />
       </profile>
     </annotationProcessing>
   </component>
