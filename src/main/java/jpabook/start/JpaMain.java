@@ -25,21 +25,7 @@ public class JpaMain {
 //            em.persist(member);
 //            HotelDetailService hotelDetailService = new HotelDetailService(em);
 //            hotelDetailService.houseDetail(2L,11);
-            Part569.pushStartData();
-            //5번
-            LocalDate checkinDate = LocalDate.now();
-            LocalDate checkoutDate = LocalDate.now().plusDays(3);
-            LocalDate cIn = LocalDate.of(2023,11,21);
-            LocalDate cOut = LocalDate.of(2023,11,22);
-            LocalDate cIn2 = LocalDate.of(2023,11,20);
-            LocalDate cOut2 = LocalDate.of(2023,11,22);
-            Part569.bookHouse(29L,34L,cIn2,cOut2,"INDIVIDUAL",5);
-            Part569.bookHouse(29L,34L,cIn,cOut,"INDIVIDUAL",3);
-            //6번
-//            Part569.cancelReserve(36L);
-            //9번
-            Part569.showReserveState(34L,11);
-            Part569.calRevenue(34L,11);
+
             tx.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage()); // 에러 메시지 출력
