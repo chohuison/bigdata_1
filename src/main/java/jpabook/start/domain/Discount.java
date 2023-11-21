@@ -22,7 +22,7 @@ public class Discount extends Day{
     @Enumerated(value = EnumType.STRING)
     private DiscountType discountType;
 
-    private int value;
+    private Integer value;
 
 }
 
