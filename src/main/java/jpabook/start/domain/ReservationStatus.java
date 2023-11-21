@@ -23,4 +23,6 @@ public class ReservationStatus extends Day {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    private int totalPrice;
 }

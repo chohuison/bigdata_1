@@ -108,6 +108,8 @@ public class Part569
             } else {
                 System.out.println("=====roomType 오류, roomType은 INDIVIDUAL or ENTIRE======");
             }
+            em.flush();
+            em.clear();
             tx.commit();
 
         } catch (Exception e) {
@@ -147,7 +149,8 @@ public class Part569
             // 예약 삭제
             em.remove(reservation);
             System.out.println("예약이 취소되었습니다.");
-
+            em.flush();
+            em.clear();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -156,7 +159,15 @@ public class Part569
             em.close();
         }
     }
+    //9번
+    public static void showReserveState(Long hostId, int month)
+    {
 
+    }
+    public static void calRevenue(Long hostId, int month)
+    {
+
+    }
 
     public static void pushStartData()
     {
@@ -207,6 +218,8 @@ public class Part569
             hotel1.setConvenience(convenienceList);
             em.persist(hotel1);
 
+            em.flush();
+            em.clear();
 
             tx.commit();
         } catch (Exception e) {
