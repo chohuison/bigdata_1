@@ -108,8 +108,6 @@ public class Part569
             } else {
                 System.out.println("=====roomType 오류, roomType은 INDIVIDUAL or ENTIRE======");
             }
-            em.flush();
-            em.clear();
             tx.commit();
 
         } catch (Exception e) {
@@ -149,8 +147,6 @@ public class Part569
             // 예약 삭제
             em.remove(reservation);
             System.out.println("예약이 취소되었습니다.");
-            em.flush();
-            em.clear();
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
