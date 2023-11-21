@@ -21,7 +21,6 @@ import static jpabook.start.JpaMain.emf;
 //        Part569.cancelReserve(36L);
 //        //9번
 
-
 public class Part569
 {
 
