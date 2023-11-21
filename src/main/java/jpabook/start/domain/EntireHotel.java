@@ -12,5 +12,5 @@ import javax.persistence.*;
 public class EntireHotel extends Hotel{
 
 
-    private int roomCount;
+    private int maxCapacity;
 }
