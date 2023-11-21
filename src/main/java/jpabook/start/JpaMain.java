@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 
 public class JpaMain {
-     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
