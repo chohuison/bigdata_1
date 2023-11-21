@@ -1,8 +1,12 @@
+jpabook\start\domain\QEntireHotel.class
 jpabook\start\domain\QPrice.class
+jpabook\start\domain\QRoleType.class
 jpabook\start\domain\QHotel.class
+jpabook\start\domain\QIndividualHotel.class
 jpabook\start\domain\QAddress.class
 jpabook\start\domain\QReview.class
 jpabook\start\domain\QMember.class
+jpabook\start\domain\QReservationStatus.class
 jpabook\start\domain\QConvenience.class
 jpabook\start\domain\QDiscount.class
 jpabook\start\domain\QVariablePrice.class
