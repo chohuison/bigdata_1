@@ -30,9 +30,9 @@ public class Hotel {
     @Embedded
     private Address address;
 
-    private int bedCount;
+    private Integer bedCount;
 
-    private int toiletCount;
+    private Integer toiletCount;
 
     @OneToMany(mappedBy="hotel")
     private List<Discount> discount;

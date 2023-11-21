@@ -26,6 +26,6 @@ public class VariablePrice {
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
-    private int price;
+    private Integer price;
 
 }

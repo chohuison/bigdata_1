@@ -13,6 +13,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Price {
-    private int weekdayPrice;
-    private int weekendPrice;
+    private Integer weekdayPrice;
+    private Integer weekendPrice;
 }
