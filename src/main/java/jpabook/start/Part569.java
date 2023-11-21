@@ -5,7 +5,9 @@ import jpabook.start.domain.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import static jpabook.start.JpaMain.emf;
 public class Part569
 {
 
-    //5번
+    //5번 숙소예약
     public static void bookHouse(Long guestId, Long hotelId,
                                  LocalDate checkinDate, LocalDate checkoutDate,
                                  String roomType, int numOfPerson) {
@@ -60,6 +62,8 @@ public class Part569
             Member guest = em.find(Member.class, guestId);
             reservationStatus.setMember(guest);
 
+            int days = calculateTotalPrice(hotel,checkinDate,checkoutDate);
+            reservationStatus.setTotalPrice(days);
             // 개별 호텔 예약
             if ("INDIVIDUAL".equals(roomType)) {
                 if (hotel instanceof IndividualHotel) {
@@ -117,9 +121,23 @@ public class Part569
             em.close();
         }
     }
+    private static int calculateTotalPrice(Hotel hotel, LocalDate checkinDate, LocalDate checkoutDate) {
+        int totalPrice = 0;
+        LocalDate currentDate = checkinDate;
+        while (currentDate.isBefore(checkoutDate)) {
+            int price;
+            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                price = hotel.getPrice().getWeekendPrice();
+            } else {
+                price = hotel.getPrice().getWeekdayPrice();
+            }
+            totalPrice += price;
+            currentDate = currentDate.plus(1, ChronoUnit.DAYS);
+        }
+        return totalPrice;
+    }
 
-
-    //6번
+    //6번 숙소 예약 취소
     public static void cancelReserve(Long reserveId) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -133,7 +151,6 @@ public class Part569
                 System.out.println("존재하지 않는 예약입니다.");
                 return;
             }
-
             // 예약이 취소되면 해당 방의 개수를 복구
             Hotel hotel = reservation.getHotel();
             if (hotel instanceof IndividualHotel) {
@@ -155,14 +172,62 @@ public class Part569
             em.close();
         }
     }
-    //9번
-    public static void showReserveState(Long hostId, int month)
-    {
 
+    //9번 호스트 달 매출 확인
+    public static void showReserveState(Long hostId, int month) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<ReservationStatus> reservations = em.createQuery(
+                            "SELECT r FROM ReservationStatus r " +
+                                    "WHERE r.hotel.id = :hostId " , ReservationStatus.class)
+                    .setParameter("hostId", hostId)
+                    .getResultList();
+            List<ReservationStatus> resultReservations = new ArrayList<>();
+            for(ReservationStatus reservation:reservations)
+            {
+                if(reservation.getStartDay().getMonthValue() == month)
+                    resultReservations.add(reservation);
+            }
+            // 콘솔에 예약 상세 정보를 출력
+            for (ReservationStatus reservation : resultReservations) {
+                System.out.println("=========================================");
+                System.out.println("예약 ID : " + reservation.getId());
+                System.out.println("예약날짜 : " + reservation.getStartDay() + " ~ " + reservation.getFinalDay());
+                System.out.println("총 숙박비 : " + reservation.getTotalPrice());
+            }
+        } finally {
+            em.close();
+        }
     }
-    public static void calRevenue(Long hostId, int month)
-    {
+    public static void calRevenue(Long hostId, int month) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            LocalDate currentDate = LocalDate.now();
+            List<ReservationStatus> reservations = em.createQuery(
+                            "SELECT r FROM ReservationStatus r " +
+                                    "WHERE r.hotel.id = :hostId " +
+                                    "AND r.finalDay <= :currentDate", ReservationStatus.class)
+                    .setParameter("hostId", hostId)
+                    .setParameter("currentDate", currentDate)
+                    .getResultList();
 
+            List<ReservationStatus> resultReservations = new ArrayList<>();
+            for (ReservationStatus reservation : reservations) {
+                if (reservation.getStartDay().getMonthValue() == month) {
+                    resultReservations.add(reservation);
+                    System.out.println(reservation);
+                }
+            }
+            // 총 매출을 계산
+            int totalRevenue = 0;
+            for (ReservationStatus reservation : resultReservations) {
+                totalRevenue += reservation.getTotalPrice();
+            }
+            // 콘솔에 총 매출을 출력
+            System.out.println("***해당 월의 총 매출: " + totalRevenue);
+        } finally {
+            em.close();
+        }
     }
 
     public static void pushStartData()
