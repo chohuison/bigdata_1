@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Convenience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     @Column(name="CONVENIENCE_ID")
     private Long id;
 
