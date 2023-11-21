@@ -24,7 +24,7 @@ public class Review {
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
     @OneToOne
-    @Column(name = "RESERVATION_ID")
+    @JoinColumn(name = "RESERVATION_ID")
     private ReservationStatus reservationStatus;
 
     private Integer star;
