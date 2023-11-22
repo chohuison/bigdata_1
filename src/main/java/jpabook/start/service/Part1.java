@@ -43,7 +43,6 @@ public class Part1 {
 
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-
         try {
             if (host == null) {
                 System.out.println("Host not found");
