@@ -102,11 +102,7 @@ public  class HotelDetailService {
                 resultReservationStatus.add(reservationStatus.get(i));
             }
         }
-//        System.out.println("resultReserve");
-//        for(int i=0;i<resultReservationStatus.size();i++){
-//            System.out.println(resultReservationStatus.get(i).getStartDay()+ " "+ resultReservationStatus.get(i).getFinalDay());
-//
-//        }
+
          for(int i=0;i<resultReservationStatus.size();i++){
              ReservationStatus temp = resultReservationStatus.get(i);
              if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()==month){
