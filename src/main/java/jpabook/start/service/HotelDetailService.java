@@ -7,19 +7,16 @@ import net.bytebuddy.asm.Advice;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public  class HotelDetailService {
-    EntityManager em;
-    public HotelDetailService( EntityManager em){
-        this.em=em;
-    }
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
+
+
     //앤 그냥 편의시설 넣을라구..
 //    public void hotelConvenice(){
 //        Hotel hotel = em.find(Hotel.class, 1L);
@@ -30,7 +27,12 @@ public  class HotelDetailService {
 //        em.flush();
 //        em.merge(hotel);
 //    }
-    public void houseDetail(Long houseId, int month){
+    //4.호텔 상세조회 및 달력
+    public static void houseDetail(Long houseId, int month){
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+
         Hotel hotel = em.find(Hotel.class, houseId);
         int num = 0;
         String type="";
@@ -91,117 +93,140 @@ public  class HotelDetailService {
 
     }
 
-    public String []individualReservation(IndividualHotel individualHotel, int month){
+    public static String []individualReservation(IndividualHotel individualHotel, int month){
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
         String[] array = new String [32];
         Arrays.fill(array, Integer.toString(individualHotel.getRoomCount()));
         YearMonth yearMonth = YearMonth.of(2023, month);
         int lastDay = yearMonth.lengthOfMonth();
-        LocalDate startDay = LocalDate.of(2023, month, 1); // 시작일
         LocalDate finalDay = LocalDate.of(2023, month, lastDay); // 종료일
-        TypedQuery<ReservationStatus> query = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.startDay >= :startDay AND rs.startDay <= :finalDay", ReservationStatus.class);
+        TypedQuery<ReservationStatus> query = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel", ReservationStatus.class);
         query.setParameter("hotel", individualHotel);
-        query.setParameter("startDay", startDay);
-        query.setParameter("finalDay", finalDay);
         List<ReservationStatus> reservationStatus = query.getResultList();
+        List<ReservationStatus> resultReservationStatus = new ArrayList<>();
         for(int i=0;i<reservationStatus.size();i++){
-            LocalDate start = reservationStatus.get(i).getStartDay();
-            int startDayOfMonth = start.getDayOfMonth();
-            LocalDate end =reservationStatus.get(i).getFinalDay();
-            int finalDayOfMonth=0;
-            if(end.getMonthValue()!=month){
-                finalDayOfMonth=lastDay;
-            }else{
-                finalDayOfMonth = end.getDayOfMonth();
+            if(reservationStatus.get(i).getStartDay().getMonthValue()<=month && reservationStatus.get(i).getFinalDay().getMonthValue()>=month){
+                resultReservationStatus.add(reservationStatus.get(i));
             }
-
-            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
-                int value = Integer.parseInt(array[j]);
-                int resultValue = value - reservationStatus.get(i).getCnt();
-                array[j]=Integer.toString(resultValue);
-            }
-
         }
-        LocalDate getFinal = LocalDate.of(2023, month, 1);
-        TypedQuery<ReservationStatus> finalQuery = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.finalDay >= :startDay ", ReservationStatus.class);
-        finalQuery.setParameter("hotel", individualHotel);
-        finalQuery.setParameter("startDay", getFinal);
+//        System.out.println("resultReserve");
+//        for(int i=0;i<resultReservationStatus.size();i++){
+//            System.out.println(resultReservationStatus.get(i).getStartDay()+ " "+ resultReservationStatus.get(i).getFinalDay());
+//
+//        }
+         for(int i=0;i<resultReservationStatus.size();i++){
+             ReservationStatus temp = resultReservationStatus.get(i);
+             if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()==month){
 
-        List<ReservationStatus> newReservationStatus = finalQuery.getResultList();
-        for(int i=0;i<newReservationStatus.size();i++){
-            LocalDate start = getFinal;
-            int startDayOfMonth = start.getDayOfMonth();
-            LocalDate end =newReservationStatus.get(i).getFinalDay();
-            int finalDayOfMonth=end.getDayOfMonth();;
+                 int tmpStartDay=temp.getStartDay().getDayOfMonth();
+                 int tmpFinalDay=temp.getFinalDay().getDayOfMonth();
+                 for(int j =tmpStartDay; j<=tmpFinalDay; j++){
+                     int value = Integer.parseInt(array[j]);
+                     int resultValue = value - temp.getCnt();
+                     array[j]=Integer.toString(resultValue);
+                 }
 
-            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
-                int value = Integer.parseInt(array[j]);
-                int resultValue = value - newReservationStatus.get(i).getCnt();
-                array[j]=Integer.toString(resultValue);
-            }
+             }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()>month){
 
-        }
+                 for(int j =1; j<=finalDay.getDayOfMonth(); j++){
+                     int value = Integer.parseInt(array[j]);
+                     int resultValue = value - temp.getCnt();
+                     array[j]=Integer.toString(resultValue);
+                 }
+
+             }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()==month){
+
+                 int tmpFinalDay=temp.getFinalDay().getDayOfMonth();
+                 for(int j =1; j<=tmpFinalDay; j++){
+                     int value = Integer.parseInt(array[j]);
+                     int resultValue = value - temp.getCnt();
+                     array[j]=Integer.toString(resultValue);
+                 }
+
+             }else if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()>month){
+
+                 int tmpStartDay=temp.getStartDay().getDayOfMonth();
+                 for(int j =tmpStartDay; j<=finalDay.getDayOfMonth(); j++){
+                     int value = Integer.parseInt(array[j]);
+                     int resultValue = value - temp.getCnt();
+                     array[j]=Integer.toString(resultValue);
+                 }
+
+             }
+
+         }
+
+
         return array;
     }
 
-    public String[]entireReservation(EntireHotel entireHotel, int month){
+    public static String[]entireReservation(EntireHotel entireHotel, int month){
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
         String [] array = new String[32];
         Arrays.fill(array,"*");
         YearMonth yearMonth = YearMonth.of(2023, month);
         int lastDay = yearMonth.lengthOfMonth();
-        LocalDate startDay = LocalDate.of(2023, month, 1); // 시작일
         LocalDate finalDay = LocalDate.of(2023, month, lastDay); // 종료일
-        TypedQuery<ReservationStatus> query = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.startDay >= :startDay AND rs.startDay <= :finalDay", ReservationStatus.class);
+        TypedQuery<ReservationStatus> query = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel", ReservationStatus.class);
         query.setParameter("hotel", entireHotel);
-        query.setParameter("startDay", startDay);
-        query.setParameter("finalDay", finalDay);
         List<ReservationStatus> reservationStatus = query.getResultList();
-
+        List<ReservationStatus> resultReservationStatus = new ArrayList<>();
         for(int i=0;i<reservationStatus.size();i++){
-            LocalDate start = reservationStatus.get(i).getStartDay();
-            int startDayOfMonth = start.getDayOfMonth();
-            LocalDate end =reservationStatus.get(i).getFinalDay();
-            int finalDayOfMonth=0;
-            if(end.getMonthValue()!=month){
-                finalDayOfMonth=lastDay;
-            }else{
-                finalDayOfMonth = end.getDayOfMonth();
+            if(reservationStatus.get(i).getStartDay().getMonthValue()<=month && reservationStatus.get(i).getFinalDay().getMonthValue()>=month){
+                resultReservationStatus.add(reservationStatus.get(i));
             }
+        }
+        for(int i=0;i<resultReservationStatus.size();i++){
+            ReservationStatus temp = resultReservationStatus.get(i);
+            if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()==month){
 
-            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
+                int tmpStartDay=temp.getStartDay().getDayOfMonth();
+                int tmpFinalDay=temp.getFinalDay().getDayOfMonth();
+                for(int j =tmpStartDay; j<=tmpFinalDay; j++){
+                    array[j]="o";
+                }
 
-                array[j]="o";
+            }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()>month){
+
+                for(int j =1; j<=finalDay.getDayOfMonth(); j++){
+                    array[j]="o";
+                }
+
+            }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()==month){
+
+                int tmpFinalDay=temp.getFinalDay().getDayOfMonth();
+                for(int j =1; j<=tmpFinalDay; j++){
+                    array[j]="o";
+                }
+
+            }else if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()>month){
+
+                int tmpStartDay=temp.getStartDay().getDayOfMonth();
+                for(int j =tmpStartDay; j<=finalDay.getDayOfMonth(); j++){
+                    array[j]="o";
+                }
 
             }
 
         }
-        LocalDate getFinal = LocalDate.of(2023, month, 1);
-        TypedQuery<ReservationStatus> finalQuery = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.finalDay >= :startDay ", ReservationStatus.class);
-        finalQuery.setParameter("hotel", entireHotel);
-        finalQuery.setParameter("startDay", getFinal);
-
-        List<ReservationStatus> newReservationStatus = finalQuery.getResultList();
-        for(int i=0;i<newReservationStatus.size();i++){
-            LocalDate start = getFinal;
-            int startDayOfMonth = start.getDayOfMonth();
-            LocalDate end =newReservationStatus.get(i).getFinalDay();
-            int finalDayOfMonth=end.getDayOfMonth();;
-
-            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
-                array[j]="o";
-            }
+            return array;
 
         }
 
-        return array;
-    }
 
-    public void calender(String[] arr, int month) {
+
+    public static void calender(String[] arr, int month) {
+
         // 해당 달의 첫 번째 날짜를 가져옴
         LocalDate firstDayOfMonth = LocalDate.of(2023, month, 1);
 
         // 해당 달의 첫 번째 날짜의 요일을 가져옴 (1: 월요일, 2: 화요일, ..., 7: 일요일)
         int firstDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue();
-        System.out.println(firstDayOfWeek);
+
         // 해당 달의 마지막 날짜를 가져옴
         int lastDayOfMonth = firstDayOfMonth.lengthOfMonth();
 
@@ -213,10 +238,12 @@ public  class HotelDetailService {
         int dayCount =0;
         int arrCount =0;
         int arrLength=1;
-        for (int i = 0; i < firstDayOfWeek; i++) {
+
+        if(firstDayOfWeek!=7)
+        {for (int i = 0; i < firstDayOfWeek; i++) {
             System.out.print("    ");
             dayCount++;
-        }
+        }}
 
 
 
@@ -229,10 +256,13 @@ public  class HotelDetailService {
 
                 System.out.println();
                 if(arrCount ==0 ){
-                    for (int i = 0; i < firstDayOfWeek; i++) {
-                        System.out.print("    ");
-                        arrCount++;
+                    if(firstDayOfWeek!=7){
+                        for (int i = 0; i < firstDayOfWeek; i++) {
+                            System.out.print("    ");
+                            arrCount++;
+                        }
                     }
+
                 }
                 while(true){
                     System.out.print(" "+arr[arrLength]+"  ");
