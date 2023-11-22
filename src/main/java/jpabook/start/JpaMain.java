@@ -23,8 +23,8 @@ public class JpaMain {
 //            member.setName("손초희");
 //            member.setRoleType(RoleType.HOST);
 //            em.persist(member);
-            HotelDetailService hotelDetailService = new HotelDetailService(em);
-            hotelDetailService.houseDetail(2L,11);
+//            HotelDetailService hotelDetailService = new HotelDetailService(em);
+//            hotelDetailService.houseDetail(1L,12);
 
             tx.commit();
         } catch (Exception e) {

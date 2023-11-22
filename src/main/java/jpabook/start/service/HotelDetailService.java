@@ -2,6 +2,8 @@ package jpabook.start.service;
 
 
 import jpabook.start.domain.*;
+import net.bytebuddy.asm.Advice;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -114,12 +116,30 @@ public  class HotelDetailService {
 
             for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
                 int value = Integer.parseInt(array[j]);
-                int resultValue = value -1;
+                int resultValue = value - reservationStatus.get(i).getCnt();
                 array[j]=Integer.toString(resultValue);
             }
 
         }
+        LocalDate getFinal = LocalDate.of(2023, month, 1);
+        TypedQuery<ReservationStatus> finalQuery = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.finalDay >= :startDay ", ReservationStatus.class);
+        finalQuery.setParameter("hotel", individualHotel);
+        finalQuery.setParameter("startDay", getFinal);
 
+        List<ReservationStatus> newReservationStatus = finalQuery.getResultList();
+        for(int i=0;i<newReservationStatus.size();i++){
+            LocalDate start = getFinal;
+            int startDayOfMonth = start.getDayOfMonth();
+            LocalDate end =newReservationStatus.get(i).getFinalDay();
+            int finalDayOfMonth=end.getDayOfMonth();;
+
+            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
+                int value = Integer.parseInt(array[j]);
+                int resultValue = value - newReservationStatus.get(i).getCnt();
+                array[j]=Integer.toString(resultValue);
+            }
+
+        }
         return array;
     }
 
@@ -151,6 +171,23 @@ public  class HotelDetailService {
 
                 array[j]="o";
 
+            }
+
+        }
+        LocalDate getFinal = LocalDate.of(2023, month, 1);
+        TypedQuery<ReservationStatus> finalQuery = em.createQuery("SELECT rs FROM ReservationStatus rs WHERE rs.hotel = :hotel AND rs.finalDay >= :startDay ", ReservationStatus.class);
+        finalQuery.setParameter("hotel", entireHotel);
+        finalQuery.setParameter("startDay", getFinal);
+
+        List<ReservationStatus> newReservationStatus = finalQuery.getResultList();
+        for(int i=0;i<newReservationStatus.size();i++){
+            LocalDate start = getFinal;
+            int startDayOfMonth = start.getDayOfMonth();
+            LocalDate end =newReservationStatus.get(i).getFinalDay();
+            int finalDayOfMonth=end.getDayOfMonth();;
+
+            for(int j=startDayOfMonth; j<finalDayOfMonth+1 ; j++){
+                array[j]="o";
             }
 
         }
