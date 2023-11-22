@@ -91,13 +91,15 @@ public class Part4 {
                 Integer totalPrice = reservation.getTotalPrice();
                 String price = (totalPrice != null) ? totalPrice.toString() : "없음";
 
-                System.out.printf("%-4d %-15s %-15s %-15s %-10s %s%n",
+                String output = String.format("%-4d %-15s %-15s %-15s %-10s %s%n",
                         i + 1,
                         reservation.getHotel().getName(),
                         reservation.getStartDay(),
                         reservation.getFinalDay(),
                         price,
                         reviewStatus);
+
+                System.out.print(output);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,45 +107,5 @@ public class Part4 {
             em.close();
         }
     }
-//    public static void ReservationHistory(Long guestId, String findType) {
-//        EntityManager em = emf.createEntityManager();
-//
-//        try {
-//            String queryStr = "SELECT r FROM ReservationStatus r WHERE r.member.id = :guestId";
-//
-//            if ("oncoming".equals(findType)) {
-//                queryStr += " AND r.startDay >= CURRENT_DATE ORDER BY r.startDay DESC";
-//                System.out.println("[체크인 예정인 숙소 리스트]");
-//            } else if ("terminated".equals(findType)) {
-//                queryStr += " AND r.finalDay < CURRENT_DATE ORDER BY r.startDay DESC";
-//                System.out.println("[체크아웃이 완료된 숙소 리스트]");
-//            } else {
-//                queryStr += " ORDER BY r.startDay DESC";
-//                System.out.println("[전체 숙소 리스트]");
-//            }
-//
-//            TypedQuery<ReservationStatus> query = em.createQuery(queryStr, ReservationStatus.class);
-//            query.setParameter("guestId", guestId);
-//
-//            List<ReservationStatus> reservations = query.getResultList();
-//
-//            System.out.printf("%-4s %-15s %-15s %-15s %s%n", "ID", "체크인", "체크아웃", "숙소명", "후기");
-//
-//            for (ReservationStatus reservation : reservations) {
-//                String reviewStatus = reservation.isReview() ? "O" : "X";
-//
-//                System.out.printf("%-4s %-15s %-15s %-15s %s%n",
-//                        reservation.getId(),
-//                        reservation.getStartDay(),
-//                        reservation.getFinalDay(),
-//                        reservation.getHotel().getName(),
-//                        reviewStatus);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            em.close();
-//        }
-//    }
 
 }

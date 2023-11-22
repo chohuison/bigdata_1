@@ -26,6 +26,10 @@ public class QReview extends EntityPathBase<Review> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final QMember member;
+
+    public final QReservationStatus reservationStatus;
+
     public final StringPath review = createString("review");
 
     public final NumberPath<Integer> star = createNumber("star", Integer.class);
@@ -49,6 +53,8 @@ public class QReview extends EntityPathBase<Review> {
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.hotel = inits.isInitialized("hotel") ? new QHotel(forProperty("hotel"), inits.get("hotel")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
+        this.reservationStatus = inits.isInitialized("reservationStatus") ? new QReservationStatus(forProperty("reservationStatus"), inits.get("reservationStatus")) : null;
     }
 
 }

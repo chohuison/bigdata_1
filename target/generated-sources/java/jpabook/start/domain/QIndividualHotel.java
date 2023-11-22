@@ -28,6 +28,9 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     public final QAddress address;
 
     //inherited
+    public final NumberPath<Double> averageRating;
+
+    //inherited
     public final NumberPath<Integer> bedCount;
 
     //inherited
@@ -42,8 +45,6 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     //inherited
     public final NumberPath<Long> id;
 
-    public final NumberPath<Integer> maxCapacity = createNumber("maxCapacity", Integer.class);
-
     // inherited
     public final QMember member;
 
@@ -54,10 +55,18 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     public final QPrice price;
 
     //inherited
+    public final ListPath<ReservationStatus, QReservationStatus> reservationStatuses;
+
+    //inherited
     public final ListPath<Review, QReview> reviews;
+
+    public final NumberPath<Integer> roomCount = createNumber("roomCount", Integer.class);
 
     //inherited
     public final NumberPath<Integer> toiletCount;
+
+    //inherited
+    public final NumberPath<Integer> totalPrice;
 
     public QIndividualHotel(String variable) {
         this(IndividualHotel.class, forVariable(variable), INITS);
@@ -79,6 +88,7 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
         super(type, metadata, inits);
         this._super = new QHotel(type, metadata, inits);
         this.address = _super.address;
+        this.averageRating = _super.averageRating;
         this.bedCount = _super.bedCount;
         this.content = _super.content;
         this.convenience = _super.convenience;
@@ -87,8 +97,10 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
         this.member = _super.member;
         this.name = _super.name;
         this.price = _super.price;
+        this.reservationStatuses = _super.reservationStatuses;
         this.reviews = _super.reviews;
         this.toiletCount = _super.toiletCount;
+        this.totalPrice = _super.totalPrice;
     }
 
 }
