@@ -17,7 +17,6 @@ public  class HotelDetailService {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
 
 
-
     //4.호텔 상세조회 및 달력
     public static void houseDetail(Long houseId, int month){
         EntityManager em = emf.createEntityManager();
