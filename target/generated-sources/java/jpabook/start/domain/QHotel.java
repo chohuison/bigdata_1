@@ -24,6 +24,8 @@ public class QHotel extends EntityPathBase<Hotel> {
 
     public final QAddress address;
 
+    public final NumberPath<Double> averageRating = createNumber("averageRating", Double.class);
+
     public final NumberPath<Integer> bedCount = createNumber("bedCount", Integer.class);
 
     public final StringPath content = createString("content");
@@ -45,6 +47,8 @@ public class QHotel extends EntityPathBase<Hotel> {
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> toiletCount = createNumber("toiletCount", Integer.class);
+
+    public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
     public QHotel(String variable) {
         this(Hotel.class, forVariable(variable), INITS);

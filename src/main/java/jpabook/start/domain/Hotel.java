@@ -41,10 +41,13 @@ public class Hotel {
     private List<Convenience> convenience;
 
     @OneToMany(mappedBy="hotel")
-    List<Review>reviews;
+    List<Review> reviews;
 
     @OneToMany(mappedBy="hotel")
     List<ReservationStatus> reservationStatuses;
+
+    private int totalPrice;
+    private double averageRating;
 
 
 }
