@@ -146,7 +146,6 @@ public class Part569
     public static void cancelReserve(Long reserveId) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
         try {
             tx.begin();
             // 예약 조회
