@@ -79,7 +79,7 @@ public class Part1 {
 
 
 
-    //                        Part1.calPrice(2L);
+//                        Part1.calPrice(2L);
     // 2. 요금 확인
     public static void calPrice(Long hotelId) {
 
@@ -108,10 +108,10 @@ public class Part1 {
         }
 
     }
-
+    
     // 3. 요금 적용
 // Part1.applyDiscountPolicy(2L, DiscountType.QUANTITY, 10000, LocalDate.of(2023,11,21), LocalDate.of(2023,12,31));
-    public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, int value, LocalDate startDay, LocalDate finalDay) {
+public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, int value, LocalDate startDay, LocalDate finalDay) {
 
         LocalDate now = LocalDate.now();
 
