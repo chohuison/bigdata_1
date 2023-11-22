@@ -40,6 +40,8 @@ public class QHotel extends EntityPathBase<Hotel> {
 
     public final QPrice price;
 
+    public final ListPath<ReservationStatus, QReservationStatus> reservationStatuses = this.<ReservationStatus, QReservationStatus>createList("reservationStatuses", ReservationStatus.class, QReservationStatus.class, PathInits.DIRECT2);
+
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final NumberPath<Integer> toiletCount = createNumber("toiletCount", Integer.class);
