@@ -33,10 +33,14 @@ public class QReservationStatus extends EntityPathBase<ReservationStatus> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isReview = createBoolean("isReview");
+
     public final QMember member;
 
     //inherited
     public final DatePath<java.time.LocalDate> startDay = _super.startDay;
+
+    public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
     public QReservationStatus(String variable) {
         this(ReservationStatus.class, forVariable(variable), INITS);

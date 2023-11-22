@@ -42,8 +42,6 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     //inherited
     public final NumberPath<Long> id;
 
-    public final NumberPath<Integer> maxCapacity = createNumber("maxCapacity", Integer.class);
-
     // inherited
     public final QMember member;
 
@@ -54,7 +52,12 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     public final QPrice price;
 
     //inherited
+    public final ListPath<ReservationStatus, QReservationStatus> reservationStatuses;
+
+    //inherited
     public final ListPath<Review, QReview> reviews;
+
+    public final NumberPath<Integer> roomCount = createNumber("roomCount", Integer.class);
 
     //inherited
     public final NumberPath<Integer> toiletCount;
@@ -87,6 +90,7 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
         this.member = _super.member;
         this.name = _super.name;
         this.price = _super.price;
+        this.reservationStatuses = _super.reservationStatuses;
         this.reviews = _super.reviews;
         this.toiletCount = _super.toiletCount;
     }

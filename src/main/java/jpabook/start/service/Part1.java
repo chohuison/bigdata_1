@@ -1,12 +1,18 @@
 package jpabook.start.service;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.start.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Part1 {
@@ -130,6 +136,125 @@ public class Part1 {
             em.close();
 
         }
+    }
+
+    //     3. 조건에 맞는 숙소 조회
+    public static void findHouse(LocalDate checkinDate, LocalDate checkoutDate, Integer cnt, String houseType) // cnt: 인원 수(공간 전체), 방 개수(개인) / houseType은 Entire 또는 Individual
+    {
+        // houseType이 "Entire"일 때는 ENTIRE_HOTEL 조회 "Individual"일 때는 INDIVIDUAL_HOTEL 조회
+        // checkinDate / checkoutDate 사이 예약 안되어있는 숙소 조회
+        // 총 가격, 별점 평균 기준으로 내림차순 정렬 가능
+        // 검색 조건에 맞는 숙소(숙소 유형, 이름, 총 가격, 평균 별점) 정보를 보여준다.
+
+        EntityManager em = emf.createEntityManager();
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        QHotel hotel = QHotel.hotel;
+
+
+        List<Hotel> hotels = new ArrayList<>();
+
+        if (houseType == null || houseType.equals("Entire")) {
+            JPAQuery<EntireHotel> query = new JPAQuery<>(em);
+            QEntireHotel entireHotel = QEntireHotel.entireHotel;
+
+            BooleanExpression expression = cnt != null ? entireHotel.maxCapacity.goe(cnt) : null;
+            if (expression != null) {
+                query = query.where(expression);
+            }
+
+            List<Long> ids = query.select(entireHotel.id)
+                    .from(entireHotel)
+                    .fetch();
+
+            hotels.addAll(queryFactory.selectFrom(hotel)
+                    .where(
+                            hotel.id.in(ids),
+                            hotel.reservationStatuses.isEmpty()
+                                    .or(hotel.reservationStatuses.any().startDay.goe(checkoutDate))
+                                    .or(hotel.reservationStatuses.any().finalDay.loe(checkinDate))
+                    )
+                    .fetch());
+        }
+
+        if (houseType == null || houseType.equals("Individual")) {
+            JPAQuery<IndividualHotel> query = new JPAQuery<>(em);
+            QIndividualHotel individualHotel = QIndividualHotel.individualHotel;
+
+            BooleanExpression expression = cnt != null ? individualHotel.roomCount.goe(cnt) : null;
+            if (expression != null) {
+                query = query.where(expression);
+            }
+
+            List<Long> ids = query.select(individualHotel.id)
+                    .from(individualHotel)
+                    .fetch();
+
+            hotels.addAll(queryFactory.selectFrom(hotel)
+                    .where(
+                            hotel.id.in(ids),
+                            hotel.reservationStatuses.isEmpty()
+                                    .or(hotel.reservationStatuses.any().startDay.goe(checkoutDate))
+                                    .or(hotel.reservationStatuses.any().finalDay.loe(checkinDate))
+                    )
+                    .fetch());
+        }
+
+
+        System.out.println("숙소 유형 | 이름 | 총 가격 | 평균 별점");
+
+        for (Hotel h : hotels) {
+            int totalPrice = calculateTotalPrice(h, checkinDate, checkoutDate);
+            double averageRating = calculateAverageRating(h);
+
+            String roomType = "";
+            if (h instanceof EntireHotel) {
+                roomType = "전체 공간";
+            } else if (h instanceof IndividualHotel) {
+                roomType = "개인";
+            } else {
+                roomType = "없음";
+            }
+
+            System.out.println(roomType + " | "+ h.getName() + " | " + totalPrice + " | " + averageRating + " | ");
+        }
+
+
+        em.close();
+    }
+
+    private static int calculateTotalPrice(Hotel hotel, LocalDate checkinDate, LocalDate checkoutDate) {
+        int totalPrice = 0;
+        LocalDate currentDate = checkinDate;
+        while (currentDate.isBefore(checkoutDate)) {
+            int price;
+            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                price = hotel.getPrice().getWeekendPrice();
+            } else {
+                price = hotel.getPrice().getWeekdayPrice();
+            }
+            totalPrice += price;
+            currentDate = currentDate.plus(1, ChronoUnit.DAYS);
+        }
+        return totalPrice;
+    }
+
+
+    private static double calculateAverageRating(Hotel hotel) {
+        EntityManager em = emf.createEntityManager();
+
+        List<Review> reviews = hotel.getReviews();
+        if (reviews.isEmpty())
+            return 0;
+
+        double sum = 0;
+
+        for (Review review : reviews)
+            sum += review.getStar();
+
+        em.close();
+        return sum / reviews.size();
+
     }
 
 }

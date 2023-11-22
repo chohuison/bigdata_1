@@ -23,8 +23,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath name = createString("name");
 
-    // custom
-    public final QRoleType roleType = new QRoleType(forProperty("roleType"));
+    public final EnumPath<RoleType> roleType = createEnum("roleType", RoleType.class);
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));
