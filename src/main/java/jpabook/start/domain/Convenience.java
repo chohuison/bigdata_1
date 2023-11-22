@@ -15,12 +15,18 @@ import javax.persistence.*;
 public class Convenience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     @Column(name="CONVENIENCE_ID")
     private Long id;
 
     private String name;
 
+    @Enumerated(value = EnumType.STRING)
     private ConvenienceType convenienceType;
+
+    public Convenience(String name, ConvenienceType convenienceType) {
+        this.name = name;
+        this.convenienceType = convenienceType;
+    }
 
 }

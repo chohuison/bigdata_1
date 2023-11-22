@@ -10,7 +10,5 @@ import javax.persistence.*;
 @Entity
 @DiscriminatorValue("ENTIREHOTEL")
 public class EntireHotel extends Hotel{
-
-
-    private int maxCapacity;
+    private Integer maxCapacity;
 }

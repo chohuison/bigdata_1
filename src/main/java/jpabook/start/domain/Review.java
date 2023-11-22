@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     @Column(name="REVIEW_ID")
     private Long id;
     @ManyToOne
@@ -23,8 +23,11 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
+    @OneToOne
+    @JoinColumn(name = "RESERVATION_ID")
+    private ReservationStatus reservationStatus;
 
-    private int star;
+    private Integer star;
 
     private String review;
 }

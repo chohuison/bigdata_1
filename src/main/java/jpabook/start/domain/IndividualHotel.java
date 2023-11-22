@@ -10,7 +10,5 @@ import javax.persistence.*;
 @Entity
 @DiscriminatorValue("INDIVIDUALHOTEL")
 public class IndividualHotel extends Hotel{
-
-
-    private int roomCount;
+    private Integer roomCount;
 }
