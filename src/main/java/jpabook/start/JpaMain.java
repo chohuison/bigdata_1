@@ -19,23 +19,6 @@ public class JpaMain {
 
         try {
             tx.begin();
-//            Member member = new Member();
-//            member.setName("손초희");
-//            member.setRoleType(RoleType.HOST);
-//            em.persist(member);
-//            Hotel hotel = em.find(Hotel.class,2L);
-//            ReservationStatus reservationStatus = new ReservationStatus();
-//            Member member =em.find(Member.class,1L);
-//            reservationStatus.setReview(false);
-//            reservationStatus.setHotel(hotel);
-//            reservationStatus.setCnt(2);
-//            reservationStatus.setStartDay(LocalDate.of(2023,10,19));
-//            reservationStatus.setFinalDay(LocalDate.of(2023,12,3));
-//            reservationStatus.setTotalPrice(50000);
-//            reservationStatus.setMember(member);
-//            em.persist(reservationStatus);
-            HotelDetailService hotelDetailService = new HotelDetailService();
-            hotelDetailService.houseDetail(1L,11);
 
             tx.commit();
         } catch (Exception e) {
