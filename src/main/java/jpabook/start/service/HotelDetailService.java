@@ -17,16 +17,7 @@ public  class HotelDetailService {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
 
 
-    //앤 그냥 편의시설 넣을라구..
-//    public void hotelConvenice(){
-//        Hotel hotel = em.find(Hotel.class, 1L);
-//        List<Convenience>convenienceList = new ArrayList<>();
-//        Convenience convenience = em.find(Convenience.class,1L);
-//        convenienceList.add(convenience);
-//        hotel.setConvenience(convenienceList);
-//        em.flush();
-//        em.merge(hotel);
-//    }
+
     //4.호텔 상세조회 및 달력
     public static void houseDetail(Long houseId, int month){
         EntityManager em = emf.createEntityManager();
