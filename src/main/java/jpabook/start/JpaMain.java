@@ -2,7 +2,6 @@ package jpabook.start;
 
 import jpabook.start.domain.*;
 import jpabook.start.service.HotelDetailService;
-import jpabook.start.service.Part4;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,12 +19,7 @@ public class JpaMain {
 
         try {
             tx.begin();
-//            Member member = new Member();
-//            member.setName("손초희");
-//            member.setRoleType(RoleType.HOST);
-//            em.persist(member);
-//            HotelDetailService hotelDetailService = new HotelDetailService(em);
-//            hotelDetailService.houseDetail(2L,11);
+
             tx.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage()); // 에러 메시지 출력
