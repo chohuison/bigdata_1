@@ -150,7 +150,6 @@ public class Part569
 
         try {
             tx.begin();
-
             // 예약 조회
             ReservationStatus reservation = em.find(ReservationStatus.class, reserveId);
             if (reservation == null) {
