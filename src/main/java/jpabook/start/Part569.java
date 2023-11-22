@@ -142,7 +142,6 @@ public class Part569
         }
         return totalPrice;
     }
-
     //6번 숙소 예약 취소
     public static void cancelReserve(Long reserveId) {
         EntityManager em = emf.createEntityManager();
