@@ -2,7 +2,6 @@ package jpabook.start;
 
 import jpabook.start.domain.*;
 import jpabook.start.service.HotelDetailService;
-import jpabook.start.service.Part4;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,7 +10,7 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 
 public class JpaMain {
-    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
+     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
@@ -24,8 +23,20 @@ public class JpaMain {
 //            member.setName("손초희");
 //            member.setRoleType(RoleType.HOST);
 //            em.persist(member);
-//            HotelDetailService hotelDetailService = new HotelDetailService(em);
-//            hotelDetailService.houseDetail(2L,11);
+//            Hotel hotel = em.find(Hotel.class,2L);
+//            ReservationStatus reservationStatus = new ReservationStatus();
+//            Member member =em.find(Member.class,1L);
+//            reservationStatus.setReview(false);
+//            reservationStatus.setHotel(hotel);
+//            reservationStatus.setCnt(2);
+//            reservationStatus.setStartDay(LocalDate.of(2023,10,19));
+//            reservationStatus.setFinalDay(LocalDate.of(2023,12,3));
+//            reservationStatus.setTotalPrice(50000);
+//            reservationStatus.setMember(member);
+//            em.persist(reservationStatus);
+            HotelDetailService hotelDetailService = new HotelDetailService();
+            hotelDetailService.houseDetail(1L,11);
+
             tx.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage()); // 에러 메시지 출력
