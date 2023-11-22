@@ -28,6 +28,9 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     public final QAddress address;
 
     //inherited
+    public final NumberPath<Double> averageRating;
+
+    //inherited
     public final NumberPath<Integer> bedCount;
 
     //inherited
@@ -62,6 +65,9 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
     //inherited
     public final NumberPath<Integer> toiletCount;
 
+    //inherited
+    public final NumberPath<Integer> totalPrice;
+
     public QIndividualHotel(String variable) {
         this(IndividualHotel.class, forVariable(variable), INITS);
     }
@@ -82,6 +88,7 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
         super(type, metadata, inits);
         this._super = new QHotel(type, metadata, inits);
         this.address = _super.address;
+        this.averageRating = _super.averageRating;
         this.bedCount = _super.bedCount;
         this.content = _super.content;
         this.convenience = _super.convenience;
@@ -93,6 +100,7 @@ public class QIndividualHotel extends EntityPathBase<IndividualHotel> {
         this.reservationStatuses = _super.reservationStatuses;
         this.reviews = _super.reviews;
         this.toiletCount = _super.toiletCount;
+        this.totalPrice = _super.totalPrice;
     }
 
 }
