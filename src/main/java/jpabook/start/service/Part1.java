@@ -36,9 +36,9 @@ public class Part1 {
 //    List<Convenience> convenienceList = new ArrayList<>();
 //                        convenienceList.add(convenience1);
 //                        convenienceList.add(convenience2);
-//                        Part1.registHouse(6L, "숙소명", address, 1, 1,  1, "설명", convenienceList, 100000, 120000);
-    public static void registHouse(Long hostId, String name, Address address, int roomCount, int bedCnt, int toiletCnt, String content, List<Convenience> convenienceList, int weekdayPrice, int weekendPrice) {
-        //이름, 주소, 소유자(호스트), 수용 인원, 침실/침대/욕실 개수, 숙소 소개, 숙소 편의시설, 요금 정책(평일과 주말) 등록
+//                        Part1.registHouse(6L, "INDIVIDUAL", "숙소명", address, 1, 1,  1, "설명", convenienceList, 100000, 120000);
+    public static void registHouse(Long hostId, String hotelType, String name, Address address, int roomCount, int bedCnt, int toiletCnt, String content, List<Convenience> convenienceList, int weekdayPrice, int weekendPrice) {
+        //이름, 숙소 타입, 주소, 소유자(호스트), 수용 인원, 침실/침대/욕실 개수, 숙소 소개, 숙소 편의시설, 요금 정책(평일과 주말) 등록
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
@@ -51,17 +51,33 @@ public class Part1 {
                 return;
             }
 
-            IndividualHotel hotel = new IndividualHotel();
-            hotel.setName(name);
-            hotel.setMember(host);
-            hotel.setContent(content);
-            hotel.setAddress(address);
-            hotel.setBedCount(bedCnt);
-            hotel.setToiletCount(toiletCnt);
-            hotel.setRoomCount(roomCount);
-            hotel.setConvenience(convenienceList);
-            hotel.setPrice(new Price(weekdayPrice, weekendPrice));
-            em.persist(hotel);
+            if(hotelType.equals("ENTIRE"))
+            {
+                EntireHotel hotel = new EntireHotel();
+                hotel.setName(name);
+                hotel.setMember(host);
+                hotel.setContent(content);
+                hotel.setAddress(address);
+                hotel.setBedCount(bedCnt);
+                hotel.setToiletCount(toiletCnt);
+                hotel.setMaxCapacity(roomCount);
+                hotel.setConvenience(convenienceList);
+                hotel.setPrice(new Price(weekdayPrice, weekendPrice));
+                em.persist(hotel);
+            }
+            else if(hotelType.equals("INDIVIDUAL")) {
+                IndividualHotel hotel = new IndividualHotel();
+                hotel.setName(name);
+                hotel.setMember(host);
+                hotel.setContent(content);
+                hotel.setAddress(address);
+                hotel.setBedCount(bedCnt);
+                hotel.setToiletCount(toiletCnt);
+                hotel.setRoomCount(roomCount);
+                hotel.setConvenience(convenienceList);
+                hotel.setPrice(new Price(weekdayPrice, weekendPrice));
+                em.persist(hotel);
+            }
 
             em.flush();
             em.clear();
