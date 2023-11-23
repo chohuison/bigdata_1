@@ -102,7 +102,7 @@ public class Part569
 
                     if(((EntireHotel) hotel).getMaxCapacity() >= numOfPersonReservations + numOfPerson)
                     {
-                        reservationStatus.setCnt(numOfPersonReservations + numOfPerson);
+                        reservationStatus.setCnt(((EntireHotel) hotel).getMaxCapacity());
                         if (numOfPerson <= reservationStatus.getCnt()) {
                             em.persist(reservationStatus);
                             System.out.println("예약이 완료되었습니다.");
@@ -147,10 +147,8 @@ public class Part569
     public static void cancelReserve(Long reserveId) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-
         try {
             tx.begin();
-
             // 예약 조회
             ReservationStatus reservation = em.find(ReservationStatus.class, reserveId);
             if (reservation == null) {
