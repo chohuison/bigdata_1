@@ -106,9 +106,26 @@ public class Part1 {
 
         try {
             Hotel hotel = em.find(Hotel.class, hotelId);
+            List<Discount> discounts = hotel.getDiscount();
 
+            LocalDate now = LocalDate.now();
             int weekdayPrice = hotel.getPrice().getWeekdayPrice();
             int weekendPrice = hotel.getPrice().getWeekendPrice();
+
+            // 할인 적용 여부를 확인하고 적용
+            for(Discount discount : discounts) {
+                if ((discount.getStartDay().isBefore(now) && discount.getFinalDay().isAfter(now)) || discount.getStartDay().equals(now) || discount.getFinalDay().equals(now)) {
+                    if (discount.getDiscountType().equals(DiscountType.RATE)) {
+                        weekdayPrice = (int) (weekdayPrice * (1 - discount.getValue() / 100.0));
+                        weekendPrice = (int) (weekendPrice * (1 - discount.getValue() / 100.0));
+                    } else {
+                        weekdayPrice = weekdayPrice - discount.getValue();
+                        weekendPrice = weekendPrice - discount.getValue();
+                    }
+                    hotel.setPrice(new Price(weekdayPrice, weekendPrice));
+                }
+            }
+
             System.out.println("현재 호텔 가격: (평일): " + weekdayPrice +", (주말):" + weekendPrice);
 
             em.flush();
@@ -129,8 +146,6 @@ public class Part1 {
 // Part1.applyDiscountPolicy(2L, DiscountType.QUANTITY, 10000, LocalDate.of(2023,11,21), LocalDate.of(2023,12,31));
 public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, int value, LocalDate startDay, LocalDate finalDay) {
 
-        LocalDate now = LocalDate.now();
-
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
@@ -146,23 +161,6 @@ public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, 
             discountAmount.setStartDay(startDay);
             discountAmount.setFinalDay(finalDay);
             em.persist(discountAmount);
-
-            // 할인 적용 여부를 확인하고 적용
-            if ((discountAmount.getStartDay().isBefore(now) && discountAmount.getFinalDay().isAfter(now)) || discountAmount.getStartDay().equals(now) || discountAmount.getFinalDay().equals(now) ) {
-                int newWeekdayPrice = hotel.getPrice().getWeekdayPrice();
-                int newWeekendPrice = hotel.getPrice().getWeekendPrice();
-                if (discountType.equals(DiscountType.RATE))
-                {
-                    newWeekdayPrice = (int)(newWeekdayPrice * (1 - value / 100.0));
-                    newWeekendPrice = (int)(newWeekendPrice * (1 - value / 100.0));
-                }
-                else {
-                    newWeekdayPrice = newWeekdayPrice - discountAmount.getValue();
-                    newWeekendPrice = newWeekendPrice - discountAmount.getValue();
-                }
-                hotel.setPrice(new Price(newWeekdayPrice, newWeekendPrice));
-            }
-
 
             em.flush();
             em.clear();

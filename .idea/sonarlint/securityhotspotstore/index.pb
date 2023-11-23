@@ -1,8 +1,6 @@
 
 k
 ;src/main/java/jpabook/start/service/HotelDetailService.java,6\0\605383fc038880e5e3e7f6c9a715edebca5bdd3f
-X
-(src/main/java/jpabook/start/JpaMain.java,6\2\6214fb4124335e046b2826da912e876cf80d2d4b
 e
 5src/main/java/jpabook/start/domain/VariablePrice.java,d\7\d75f2cf1c28613689ce0e6aeb09fdb657438569b
 ]
@@ -21,3 +19,17 @@ i
 .src/main/java/jpabook/start/domain/Member.java,e\b\ebc5da7e54e73606b7ca8472c521a8c672b12ad8
 Y
 )src/main/java/jpabook/start/HotelDTO.java,2\4\245bf1950a72f13c3f700d623fbf3278d3751a68
+X
+(src/main/java/jpabook/start/Part569.java,a\5\a57698130b3e038bea3a8b37aa844faa07bcdef5
+]
+-src/main/java/jpabook/start/domain/Hotel.java,f\6\f6fad1e22c64d86d4f4959bbf82a35c2d3982e4a
+_
+/src/main/java/jpabook/start/domain/Address.java,3\7\37abb107091320a154ca981556bbcb67c477f453
+c
+3src/main/java/jpabook/start/domain/Convenience.java,3\d\3dd902896793786daaa32bc825cdb1b692de4381
+^
+.src/main/java/jpabook/start/service/Part4.java,7\7\77387bcbaf6eeb719e025800e7b835f184d34b35
+c
+3src/main/java/jpabook/start/domain/EntireHotel.java,7\c\7c0df0b3f14fc96368f465c7f5a6653a585603c6
+g
+7src/main/java/jpabook/start/domain/IndividualHotel.java,0\a\0ab04eb759d6512150c4fccbc4b02f06a0af6b24

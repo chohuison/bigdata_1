@@ -106,7 +106,6 @@ public  class HotelDetailService {
              ReservationStatus temp = resultReservationStatus.get(i);
              if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()==month){
 
-
                  int tmpStartDay=temp.getStartDay().getDayOfMonth();
                  int tmpFinalDay=temp.getFinalDay().getDayOfMonth();
                  for(int j =tmpStartDay; j<=tmpFinalDay; j++){
@@ -117,13 +116,11 @@ public  class HotelDetailService {
 
              }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()>month){
 
-
                  for(int j =1; j<=finalDay.getDayOfMonth(); j++){
                      int value = Integer.parseInt(array[j]);
                      int resultValue = value - temp.getCnt();
                      array[j]=Integer.toString(resultValue);
                  }
-
 
              }else if(temp.getStartDay().getMonthValue()<month && temp.getFinalDay().getMonthValue()==month){
 
@@ -136,11 +133,6 @@ public  class HotelDetailService {
 
              }else if(temp.getStartDay().getMonthValue()==month && temp.getFinalDay().getMonthValue()>month){
 
-
-                 for(int j=0;j< array.length;j++){
-                     System.out.print(array[j]);
-                 }
-                 System.out.println();
                  int tmpStartDay=temp.getStartDay().getDayOfMonth();
                  for(int j =tmpStartDay; j<=finalDay.getDayOfMonth(); j++){
                      int value = Integer.parseInt(array[j]);
@@ -223,6 +215,7 @@ public  class HotelDetailService {
 
         // 해당 달의 마지막 날짜를 가져옴
         int lastDayOfMonth = firstDayOfMonth.lengthOfMonth();
+
         // 달력 출력
         System.out.println("[" + 2023 + "년 " + month + "월" + "]");
         System.out.println("일   월   화  수  목  금  토");
@@ -274,7 +267,7 @@ public  class HotelDetailService {
         }
         System.out.println();
         for(int i=arrLength;i<= lastDayOfMonth;i++){
-            System.out.print(" "+arr[i]+"  ");
+            System.out.print(" "+arr[arrLength]+"  ");
         }
     }
 

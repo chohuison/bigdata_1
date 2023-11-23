@@ -73,18 +73,17 @@ public class Part569
             // 개별 호텔 예약
             if ("INDIVIDUAL".equals(roomType)) {
                 if (hotel instanceof IndividualHotel) {
-                    //기존 예약된 인원수
                     int numOfPersonReservations = existingReservations.stream()
                             .mapToInt(ReservationStatus::getCnt)
                             .sum();
 
                     if(((IndividualHotel) hotel).getRoomCount() >=numOfPersonReservations + numOfPerson)
                     {
-                        reservationStatus.setCnt(numOfPerson);
-                        if (reservationStatus.getCnt() <= ((IndividualHotel) hotel).getRoomCount() ) {
+                        reservationStatus.setCnt(numOfPersonReservations + numOfPerson);
+                        if (numOfPerson <= reservationStatus.getCnt()) {
                             em.persist(reservationStatus);
                             System.out.println("예약이 완료되었습니다.");
-                            System.out.println("======>예약된 인원 : " + reservationStatus.getCnt());
+                            System.out.println("======>예약된 cnt : " + reservationStatus.getCnt());
                         }
                     }
                     else {
@@ -94,7 +93,6 @@ public class Part569
                     System.out.println("개별 호텔이 아닌 호텔은 INDIVIDUAL 예약이 불가능합니다.");
                 }
             }
-//            existingReservations
             // 전체 호텔 예약
             else if ("ENTIRE".equals(roomType)) {
                 if (hotel instanceof EntireHotel) {
@@ -102,25 +100,20 @@ public class Part569
                             .mapToInt(ReservationStatus::getCnt)
                             .sum();
 
-                    if(numOfPersonReservations == 0)
+                    if(((EntireHotel) hotel).getMaxCapacity() >= numOfPersonReservations + numOfPerson)
                     {
-                        if(((EntireHotel) hotel).getMaxCapacity() >= numOfPerson)
-                        {
-                            reservationStatus.setCnt(numOfPerson);
-                            if (numOfPerson <= reservationStatus.getCnt()) {
-                                em.persist(reservationStatus);
-                                System.out.println("예약이 완료되었습니다.");
-                            }
-                        }
-                        else {
-                            System.out.println("인원이 숙소의 최대 수용 가능 인원을 초과했습니다.");
+                        reservationStatus.setCnt(((EntireHotel) hotel).getMaxCapacity());
+                        if (numOfPerson <= reservationStatus.getCnt()) {
+                            em.persist(reservationStatus);
+                            System.out.println("예약이 완료되었습니다.");
+                            System.out.println("======>예약된 cnt : " + reservationStatus.getCnt());
                         }
                     }
                     else {
-                        System.out.println("예약할 수 없습니다.(이미 예약된 숙소)");
+                        System.out.println("인원이 숙소의 최대 수용 가능 인원을 초과했습니다.");
                     }
                 } else {
-                    System.out.println("전체 숙소가 아닌 숙소은 ENTIRE 예약이 불가능합니다.");
+                    System.out.println("전체 호텔이 아닌 호텔은 ENTIRE 예약이 불가능합니다.");
                 }
             } else {
                 System.out.println("=====roomType 오류, roomType은 INDIVIDUAL or ENTIRE======");
