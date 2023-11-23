@@ -122,7 +122,6 @@ public class Part1 {
                         weekdayPrice = weekdayPrice - discount.getValue();
                         weekendPrice = weekendPrice - discount.getValue();
                     }
-                    hotel.setPrice(new Price(weekdayPrice, weekendPrice));
                 }
             }
 
