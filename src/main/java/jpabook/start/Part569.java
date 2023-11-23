@@ -183,7 +183,7 @@ public class Part569
         try {
             List<ReservationStatus> reservations = em.createQuery(
                             "SELECT r FROM ReservationStatus r " +
-                                    "WHERE r.hotel.id = :hostId " , ReservationStatus.class)
+                                    "WHERE r.hotel.member.id = :hostId " , ReservationStatus.class)
                     .setParameter("hostId", hostId)
                     .getResultList();
             List<ReservationStatus> resultReservations = new ArrayList<>();
@@ -209,7 +209,7 @@ public class Part569
             LocalDate currentDate = LocalDate.now();
             List<ReservationStatus> reservations = em.createQuery(
                             "SELECT r FROM ReservationStatus r " +
-                                    "WHERE r.hotel.id = :hostId " +
+                                    "WHERE r.hotel.member.id = :hostId " +
                                     "AND r.finalDay <= :currentDate", ReservationStatus.class)
                     .setParameter("hostId", hostId)
                     .setParameter("currentDate", currentDate)
