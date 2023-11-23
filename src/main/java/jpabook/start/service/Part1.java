@@ -204,7 +204,7 @@ public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, 
             JPAQuery<EntireHotel> query = new JPAQuery<>(em);
             QEntireHotel entireHotel = QEntireHotel.entireHotel;
 
-            BooleanExpression expression = cnt != null ? entireHotel.maxCapacity.eq(cnt) : null;
+            BooleanExpression expression = cnt != null ? entireHotel.maxCapacity.goe(cnt) : null;
             if (expression != null) {
                 query = query.where(expression);
             }
@@ -238,7 +238,7 @@ public static void applyDiscountPolicy(Long hotelId, DiscountType discountType, 
             JPAQuery<IndividualHotel> query = new JPAQuery<>(em);
             QIndividualHotel individualHotel = QIndividualHotel.individualHotel;
 
-            BooleanExpression expression = cnt != null ? individualHotel.roomCount.eq(cnt) : null;
+            BooleanExpression expression = cnt != null ? individualHotel.roomCount.goe(cnt) : null;
             if (expression != null) {
                 query = query.where(expression);
             }
